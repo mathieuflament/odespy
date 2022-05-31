@@ -26,8 +26,8 @@ class Pyds(Solver):
         try:
             import PyDSTool
         except ImportError:
-            raise ImportError,'''
-        PyDSTool is not installed - required for solvers from PyDSTool'''
+            raise ImportError('''
+        PyDSTool is not installed - required for solvers from PyDSTool''')
 
     def solve(self, time_points, terminate=None):
         # Common parts as superclass
@@ -144,11 +144,11 @@ class Vode_pyds(Pyds):
 
 if __name__ == '__main__':
 
-    f = lambda (u00,u11),t: [u11,-u00]
+    f = lambda u,t: [u[1],-u[0]]
     method = Vode_pyds(f)
     method.set_initial_condition([0.,1.])
     u,t = method.solve(np.linspace(0.,10.,50))
-    print u
+    print(u)
     import scitools.std as st
     st.plot(t,u[:,0])
-    print max(u[:,0]-np.sin(t))
+    print(max(u[:,0]-np.sin(t)))
